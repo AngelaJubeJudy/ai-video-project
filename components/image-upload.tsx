@@ -3,7 +3,7 @@
 import { useCallback, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useLanguage } from '@/components/providers/language-provider';
+import { useTranslation } from 'react-i18next';
 import { Upload, X, Image } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -26,7 +26,7 @@ export function ImageUpload({
   multiple = false,
   maxFiles = 1
 }: ImageUploadProps) {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   const [dragOver, setDragOver] = useState(false);
 
   const handleFiles = useCallback((fileList: FileList) => {

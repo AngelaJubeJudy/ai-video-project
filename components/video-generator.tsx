@@ -9,12 +9,12 @@ import { Slider } from '@/components/ui/slider';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Progress } from '@/components/ui/progress';
 import { ImageUpload } from '@/components/image-upload';
-import { useLanguage } from '@/components/providers/language-provider';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { Loader2, Play } from 'lucide-react';
 
 export function VideoGenerator() {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   const [startImage, setStartImage] = useState<File | null>(null);
   const [referenceImages, setReferenceImages] = useState<File[]>([]);
   const [prompt, setPrompt] = useState('');

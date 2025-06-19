@@ -2,8 +2,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/providers/theme-provider';
-import { LanguageProvider } from '@/components/providers/language-provider';
 import { Toaster } from '@/components/ui/sonner';
+import I18nProvider from '@/components/providers/i18n-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -28,10 +28,10 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <LanguageProvider>
+          <I18nProvider>
             {children}
             <Toaster />
-          </LanguageProvider>
+          </I18nProvider>
         </ThemeProvider>
       </body>
     </html>

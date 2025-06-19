@@ -3,28 +3,30 @@
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Video, History, Globe, Settings } from 'lucide-react';
-import { useLanguage } from '@/components/providers/language-provider';
 import { ApiKeyDialog } from '@/components/api-key-dialog';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface HeaderProps {
   activeTab: 'generator' | 'history';
   onTabChange: (tab: 'generator' | 'history') => void;
 }
 
-export function Header({ activeTab, onTabChange }: HeaderProps) {
-  const { language, setLanguage, t } = useLanguage();
-  const [showApiDialog, setShowApiDialog] = useState(false);
+const LANGUAGES = [
+  { code: 'en', name: 'English', flag: '🇺🇸' },
+  { code: 'zh', name: '中文', flag: '🇨🇳' },
+  { code: 'es', name: 'Español', flag: '🇪🇸' },
+];
 
-  const languages = [
-    { code: 'en', name: 'English' },
-    { code: 'zh', name: '中文' },
-    { code: 'es', name: 'Español' },
-    { code: 'fr', name: 'Français' },
-    { code: 'de', name: 'Deutsch' },
-    { code: 'ja', name: '日本語' },
-    { code: 'ko', name: '한국어' }
-  ];
+export function Header({ activeTab, onTabChange }: HeaderProps) {
+  const { t, i18n } = useTranslation();
+  const [showApiDialog, setShowApiDialog] = useState(false);
+  const currentLang = i18n.language.split('-')[0];
+
+  const handleSetLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+    localStorage.setItem('language', lang);
+  };
 
   return (
     <header className="border-b border-gray-800 bg-black/50 backdrop-blur-sm sticky top-0 z-50">
@@ -77,17 +79,20 @@ export function Header({ activeTab, onTabChange }: HeaderProps) {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm">
-                  <Globe className="h-4 w-4" />
+                  {/* 当前语言国旗，移动端/桌面端自适应 */}
+                  <span className="text-xl">{LANGUAGES.find(l => l.code === currentLang)?.flag || '🌐'}</span>
+                  <span className="ml-2 hidden sm:inline">{LANGUAGES.find(l => l.code === currentLang)?.name || 'Language'}</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                {languages.map((lang) => (
+                {LANGUAGES.map((lang) => (
                   <DropdownMenuItem
                     key={lang.code}
-                    onClick={() => setLanguage(lang.code as any)}
-                    className={language === lang.code ? 'bg-accent' : ''}
+                    onClick={() => handleSetLanguage(lang.code)}
+                    className={currentLang === lang.code ? 'bg-accent' : ''}
                   >
-                    {lang.name}
+                    <span className="text-xl">{lang.flag}</span>
+                    <span className="ml-2 hidden sm:inline">{lang.name}</span>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>

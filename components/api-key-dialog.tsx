@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useLanguage } from '@/components/providers/language-provider';
+import { useTranslation } from 'react-i18next';
 import { Eye, EyeOff } from 'lucide-react';
 
 interface ApiKeyDialogProps {
@@ -14,7 +14,7 @@ interface ApiKeyDialogProps {
 }
 
 export function ApiKeyDialog({ open, onOpenChange }: ApiKeyDialogProps) {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   const [apiKey, setApiKey] = useState('');
   const [showKey, setShowKey] = useState(false);
 
